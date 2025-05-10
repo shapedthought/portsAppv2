@@ -1,0 +1,45 @@
+<div class="grid grid-cols-[30%_70%] h-[calc(80vh-100px)] mx-auto px-2">
+  <!-- Left column (sidebar) -->
+  <div
+    class="flex flex-col h-full pr-4 overflow-y-auto border-r border-gray-200"
+  >
+    <div class="flex items-center justify-between mb-4 mt-4">
+      <button
+        (click)="addNewServer()"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Add Server
+      </button>
+    </div>
+    <h2 class="text-lg font-medium mb-4">Servers</h2>
+    <div class="flex-1">
+      @for (server of servers; track server.id) {
+      <div (click)="selectServer(server)" class="cursor-pointer">
+        <app-server
+          [server]="server"
+          [isSelected]="selectedServer.id === server.id"
+          (editServer)="editServer($event)"
+          (deleteServer)="deleteServer($event)"
+        >
+        </app-server>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Right column (main content) -->
+  <div class="h-full overflow-y-auto pl-4 pr-4 w-full">
+    <app-configuration [server]="selectedServer"></app-configuration>
+  </div>
+</div>
+
+<app-add-server-dialog
+  [visible]="showServerDialog"
+  [serverToEdit]="serverToEdit"
+  (saveServer)="saveServer($event)"
+  (hideDialog)="toggleDialog()"
+></app-add-server-dialog>
+
+<!-- Add these components -->
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-toast></p-toast>

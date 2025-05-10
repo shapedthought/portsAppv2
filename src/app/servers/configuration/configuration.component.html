@@ -1,0 +1,36 @@
+<div class="mb-4 flex">
+  <p-card styleClass="w-full mt-4">
+    <ng-template pTemplate="header">
+      <div class="p-3 pb-1">
+        <div class="text-xl font-medium">
+          {{ server.name }}
+        </div>
+      </div>
+    </ng-template>
+    @if (server) {
+    <p>Location: {{ server.location }}</p>
+    <p>Total Ports: {{ server.totalMappedPorts }}</p>
+    <p class="mt-4">
+      Server details and configuration options will be displayed here. You can
+      add more detailed information, settings, and controls for the selected
+      server.
+    </p>
+    <button
+      class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      (click)="getSourceData()"
+    >
+      Get Source Data
+    </button>
+    <button
+      class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
+      (click)="getPortData()"
+    >
+      Get Port Data
+    </button>
+    } @else {
+    <div class="text-gray-500">
+      Please select a server from the list to view its configuration.
+    </div>
+    }
+  </p-card>
+</div>

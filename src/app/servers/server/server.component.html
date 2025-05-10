@@ -1,0 +1,31 @@
+<div class="mb-4 flex items-center justify-center">
+  <p-card
+    [style]="{ width: '25rem', overflow: 'hidden' }"
+    [ngClass]="{ 'border-2 border-blue-500': isSelected }"
+  >
+    <ng-template pTemplate="header">
+      <div class="flex justify-between items-center p-3 pb-1">
+        <div class="text-xl font-medium">{{ server.name }}</div>
+        <div class="flex gap-2">
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-text p-button-sm"
+            (click)="onEditItem()"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-text p-button-danger p-button-sm"
+            (click)="onDeleteItem()"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+
+    <div>
+      <p>Location: {{ server.location }}</p>
+      <p>Total Ports: {{ server.totalMappedPorts }}</p>
+    </div>
+  </p-card>
+</div>
