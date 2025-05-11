@@ -29,28 +29,11 @@ export class PortDataService {
       catchError(this.handleError)
     );
   }
-
   getSources(
     sourceRequest: SourceRequest
   ): Observable<SourceServicesResponse[]> {
     return this.http
       .post<SourceServicesResponse[]>(`${this.baseUrl}/source`, sourceRequest)
-      .pipe(
-        retry(1), // Retry failed request once
-        catchError(this.handleError)
-      );
-  }
-
-  /**
-   * Gets target data for specific products based on the request
-   * @param targetRequest The request containing target products to filter by
-   * @returns Observable of PortData array
-   */
-  getTargets(
-    targetRequest: TargetRequest
-  ): Observable<TargetServicesResponse[]> {
-    return this.http
-      .post<TargetServicesResponse[]>(`${this.baseUrl}/target`, targetRequest)
       .pipe(
         retry(1), // Retry failed request once
         catchError(this.handleError)

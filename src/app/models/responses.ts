@@ -14,6 +14,11 @@ export interface TargetServicesResponse {
   id: string;
   toPort: string;
   product: string;
+  protocol?: string;
+  port?: string;
+  fromPort?: string;
+  section?: string;
+  description?: string;
 }
 
 export interface PortDataResponse {
@@ -22,6 +27,7 @@ export interface PortDataResponse {
   fromPort: string;
   toPort: string;
   protocol: string;
+  port: string;
   section: string;
   description: string;
 }

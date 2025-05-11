@@ -9,4 +9,5 @@ export interface TargetRequest {
 export interface PortRequest {
   fromPort: string;
   productName: string;
+  section: string;
 }

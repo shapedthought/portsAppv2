@@ -1,4 +1,4 @@
-<div class="configuration-container w-full h-screen flex flex-col">
+<div class="configuration-container">
   <!-- Server Information Header -->
   <p-card styleClass="w-full mb-4">
     <ng-template pTemplate="header">
@@ -25,8 +25,8 @@
 
   @if (sourceServer) {
   <!-- Target Server Selection -->
-  <div class="target-server-selection mb-4 flex-grow">
-    <p-card styleClass="w-full h-full">
+  <div class="target-server-selection mb-4">
+    <p-card styleClass="w-full">
       <ng-template pTemplate="header">
         <div class="p-3 pb-1">
           <h3 class="text-lg font-medium">Select Target Server</h3>
@@ -62,8 +62,8 @@
   </div>
 
   <!-- Product Selection -->
-  <div class="product-selection mb-4 flex-grow">
-    <p-card styleClass="w-full h-full">
+  <div class="product-selection mb-4">
+    <p-card styleClass="w-full">
       <ng-template pTemplate="header">
         <div class="p-3 pb-1">
           <h3 class="text-lg font-medium">Select Product</h3>
@@ -90,10 +90,11 @@
       </div>
     </p-card>
   </div>
-  <div class="grid w-full flex-grow">
+
+  <div class="grid">
     <!-- Sources Table -->
-    <div class="col-12 md:col-6 w-full flex flex-col">
-      <p-card styleClass="h-full w-full flex-grow">
+    <div class="col-12 md:col-6 mb-4">
+      <p-card styleClass="h-full">
         <ng-template pTemplate="header">
           <div class="p-3 pb-1">
             <h3 class="text-lg font-medium">Source Services</h3>
@@ -105,14 +106,13 @@
           [value]="sources"
           [paginator]="true"
           [rows]="10"
-          [globalFilterFields]="['section', 'fromPort']"
+          [globalFilterFields]="['fromPort', 'product', 'section']"
           selectionMode="single"
           [(selection)]="selectedSource"
           (onRowSelect)="$event.data ? onSourceSelect($event.data) : null"
           [loading]="loading.sources"
-          styleClass="p-datatable-sm p-datatable-scrollable w-full"
-          [scrollable]="true"
-          scrollHeight="350px"
+          styleClass="p-datatable-sm"
+          [tableStyle]="{ 'min-height': '300px' }"
         >
           <ng-template pTemplate="caption">
             <div class="flex justify-content-between">
@@ -137,27 +137,34 @@
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="section">
-                Section <p-sortIcon field="section"></p-sortIcon>
-              </th>
               <th pSortableColumn="fromPort">
                 Source <p-sortIcon field="fromPort"></p-sortIcon>
+              </th>
+              <th pSortableColumn="product">
+                Product <p-sortIcon field="product"></p-sortIcon>
+              </th>
+              <th pSortableColumn="section">
+                Section <p-sortIcon field="section"></p-sortIcon>
               </th>
             </tr>
             <tr>
               <th>
-                <p-columnFilter type="text" field="section"></p-columnFilter>
+                <p-columnFilter type="text" field="fromPort"></p-columnFilter>
               </th>
               <th>
-                <p-columnFilter type="text" field="fromPort"></p-columnFilter>
+                <p-columnFilter type="text" field="product"></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter type="text" field="section"></p-columnFilter>
               </th>
             </tr>
           </ng-template>
 
           <ng-template pTemplate="body" let-source>
             <tr [pSelectableRow]="source">
-              <td>{{ source.section }}</td>
               <td>{{ source.fromPort }}</td>
+              <td>{{ source.product }}</td>
+              <td>{{ source.section }}</td>
             </tr>
           </ng-template>
 
@@ -175,27 +182,28 @@
         </p-table>
       </p-card>
     </div>
+
     <!-- Target Ports Table -->
-    <div class="col-12 md:col-6 w-full flex flex-col">
-      <p-card styleClass="h-full w-full flex-grow">
+    <div class="col-12 md:col-6 mb-4">
+      <p-card styleClass="h-full">
         <ng-template pTemplate="header">
           <div class="p-3 pb-1">
             <h3 class="text-lg font-medium">Target Ports</h3>
           </div>
         </ng-template>
+
         <p-table
           #dt2
           [value]="targets"
           [paginator]="true"
           [rows]="10"
-          [globalFilterFields]="['toPort', 'protocol', 'port']"
+          [globalFilterFields]="['id', 'toPort', 'product']"
           selectionMode="multiple"
           [(selection)]="selectedTargets"
           (onRowSelect)="$event.data ? onTargetSelect($event.data) : null"
           [loading]="loading.targets"
-          styleClass="p-datatable-sm p-datatable-scrollable w-full"
-          [scrollable]="true"
-          scrollHeight="350px"
+          styleClass="p-datatable-sm"
+          [tableStyle]="{ 'min-height': '300px' }"
         >
           <ng-template pTemplate="caption">
             <div class="flex justify-content-between">
@@ -217,42 +225,44 @@
               </span>
             </div>
           </ng-template>
+
           <ng-template pTemplate="header">
             <tr>
               <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
+              <th pSortableColumn="id">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
               <th pSortableColumn="toPort">
-                Target Service <p-sortIcon field="toPort"></p-sortIcon>
+                Port <p-sortIcon field="toPort"></p-sortIcon>
               </th>
-              <th pSortableColumn="protocol">
-                Protocol <p-sortIcon field="protocol"></p-sortIcon>
-              </th>
-              <th pSortableColumn="port">
-                Port <p-sortIcon field="port"></p-sortIcon>
+              <th pSortableColumn="product">
+                Product <p-sortIcon field="product"></p-sortIcon>
               </th>
             </tr>
             <tr>
               <th></th>
               <th>
+                <p-columnFilter type="text" field="id"></p-columnFilter>
+              </th>
+              <th>
                 <p-columnFilter type="text" field="toPort"></p-columnFilter>
               </th>
               <th>
-                <p-columnFilter type="text" field="protocol"></p-columnFilter>
-              </th>
-              <th>
-                <p-columnFilter type="text" field="port"></p-columnFilter>
+                <p-columnFilter type="text" field="product"></p-columnFilter>
               </th>
             </tr>
           </ng-template>
+
           <ng-template pTemplate="body" let-target>
             <tr [pSelectableRow]="target">
               <td>
                 <p-tableCheckbox [value]="target"></p-tableCheckbox>
               </td>
+              <td>{{ target.id }}</td>
               <td>{{ target.toPort }}</td>
-              <td>{{ target.protocol }}</td>
-              <td>{{ target.port }}</td>
+              <td>{{ target.product }}</td>
             </tr>
           </ng-template>
 
@@ -268,14 +278,14 @@
             </tr>
           </ng-template>
         </p-table>
+
         <!-- Assign Button -->
-        <div class="flex justify-content-end mt-3 p-3 pt-0">
+        <div class="flex justify-content-end mt-3 p-3">
           <p-button
             label="Assign Selected Ports"
             icon="pi pi-check"
             [disabled]="!selectedTargets.length || !selectedTargetServer"
             (onClick)="assignSelectedPorts()"
-            styleClass="p-button-sm"
           >
           </p-button>
         </div>
@@ -284,7 +294,7 @@
   </div>
 
   <!-- Port Info Panel -->
-  <div class="mb-4 flex-grow" *ngIf="selectedPort">
+  <div class="mb-4" *ngIf="selectedPort">
     <p-panel header="Port Information" [toggleable]="true">
       <div class="p-3">
         <p><strong>Description:</strong> {{ selectedPort.description }}</p>
@@ -296,16 +306,17 @@
   </div>
 
   <!-- Mappings Table -->
-  <div class="mb-4 flex-grow">
-    <p-card class="h-full">
+  <div class="mb-4">
+    <p-card>
       <ng-template pTemplate="header">
         <div class="p-3 pb-1">
           <h3 class="text-lg font-medium">Port Mappings</h3>
         </div>
       </ng-template>
+
       <p-table
         #dt3
-        [value]="serverMappings"
+        [value]="mappings"
         [paginator]="true"
         [rows]="10"
         [globalFilterFields]="[
@@ -315,8 +326,7 @@
           'protocol',
           'product'
         ]"
-        [loading]="loading.mappings"
-        styleClass="p-datatable-sm w-full"
+        styleClass="p-datatable-sm"
       >
         <ng-template pTemplate="caption">
           <div class="flex justify-content-between">
@@ -385,9 +395,11 @@
             <td>
               <p-dropdown
                 [options]="servers"
-                [ngModel]="getServerByName(mapping.targetServer)"
+                [(ngModel)]="mapping.targetServer"
                 optionLabel="name"
-                (onChange)="updateMappingTargetServer(mapping.id, $event.value)"
+                (onChange)="
+                  updateMappingTargetServer(mapping.id, $event.value.name)
+                "
               >
               </p-dropdown>
             </td>
@@ -403,14 +415,12 @@
             </td>
           </tr>
         </ng-template>
+
         <ng-template pTemplate="emptymessage">
           <tr>
             <td colspan="6" class="text-center p-4">
-              @if (loading.mappings) {
-              <i class="pi pi-spin pi-spinner mr-2"></i>Loading port mappings...
-              } @else { No port mappings found for
-              {{ sourceServer ? sourceServer.name : "this server" }}. Select
-              source services and target ports to create mappings. }
+              No port mappings configured yet. Select source services and target
+              ports to create mappings.
             </td>
           </tr>
         </ng-template>

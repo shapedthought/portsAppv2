@@ -1,0 +1,9 @@
+.grid {
+  margin: 0;
+  width: 100%;
+}
+
+/* Improve spacing for right column content */
+.h-full.overflow-y-auto {
+  padding-top: 0.5rem;
+}

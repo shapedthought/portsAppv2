@@ -1,4 +1,4 @@
-<div class="grid grid-cols-[30%_70%] h-[calc(80vh-100px)] mx-auto px-2">
+<div class="grid grid-cols-[25%_75%] h-[calc(80vh-100px)] w-full">
   <!-- Left column (sidebar) -->
   <div
     class="flex flex-col h-full pr-4 overflow-y-auto border-r border-gray-200"
@@ -17,7 +17,7 @@
       <div (click)="selectServer(server)" class="cursor-pointer">
         <app-server
           [server]="server"
-          [isSelected]="selectedServer.id === server.id"
+          [isSelected]="!!(selectedServer && selectedServer.id === server.id)"
           (editServer)="editServer($event)"
           (deleteServer)="deleteServer($event)"
         >
@@ -28,8 +28,14 @@
   </div>
 
   <!-- Right column (main content) -->
-  <div class="h-full overflow-y-auto pl-4 pr-4 w-full">
+  <div class="h-full overflow-y-auto pl-4 pr-4 w-full h-full">
+    @if (selectedServer) {
     <app-configuration [server]="selectedServer"></app-configuration>
+    } @else {
+    <div class="flex items-center justify-center h-full">
+      <p class="text-gray-500">Please select a server to configure</p>
+    </div>
+    }
   </div>
 </div>
 
